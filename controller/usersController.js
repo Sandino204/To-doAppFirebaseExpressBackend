@@ -94,7 +94,7 @@ userController.signUp = (req, res) => {
 
     const emailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
-    if(!user.email.match(emailRegEx)){
+    if(!newUser.email.match(emailRegEx)){
         errors.push('email not valid')
     }
 
@@ -107,7 +107,7 @@ userController.signUp = (req, res) => {
 
     let token
     let userId 
-    db.doc(`/user/${newUser.username}`)
+    db.doc(`/users/${newUser.username}`)
         .get()
         .then((doc) => {
             if(doc.exists){
@@ -116,7 +116,6 @@ userController.signUp = (req, res) => {
                     message: 'Username already is taken'
                 })
             }else{
-                console.log('Passed part 1')
                 return firebase.auth()
                     .createUserWithEmailAndPassword(newUser.email, newUser.password)
             }
