@@ -16,11 +16,11 @@ module.exports = (req, res, next) => {
     }
 
     admin.auth()
-        .verifyIdToken((decodeToken) => {
+        .verifyIdToken(idToken)
+        .then((decodeToken) => {
             req.user = decodeToken
-            return db  
-                .collection("users")
-                .where("userId", "==", req.user.uid)
+            return db.collection("user")
+                .where("email", "==", req.user.email)
                 .limit(1)
                 .get()
         })
@@ -30,6 +30,7 @@ module.exports = (req, res, next) => {
             return next()
         })
         .catch((err) => {
+            console.log(err)
             return res.status(403).json({
                 success: false, 
                 message: err

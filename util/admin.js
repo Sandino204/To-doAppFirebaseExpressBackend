@@ -1,7 +1,8 @@
 const admin = require('firebase-admin')
-const config = require('../config/firebase')
 
-admin.initializeApp(config)
+const adminFirebase = require('../config/adminFirebase')
+
+admin.initializeApp(adminFirebase)
 
 const db = admin.firestore()
 

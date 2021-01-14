@@ -53,7 +53,6 @@ userController.login = (req, res) => {
                 })
             })
             .catch((err) => {
-                console.log(err)
                 return res.status(403).json({
                     success: false, 
                     message: "Invalid credential, please try again"
@@ -107,7 +106,7 @@ userController.signUp = (req, res) => {
 
     let token
     let userId 
-    db.doc(`/users/${newUser.username}`)
+    db.doc(`/user/${newUser.username}`)
         .get()
         .then((doc) => {
             if(doc.exists){
@@ -137,7 +136,6 @@ userController.signUp = (req, res) => {
         return res.status(201).json({token})
     })
     .catch((err) => {
-        console.log(err)
         if(err.code  === 'auth/email-already-in-use'){
             res.status(400).json({
                 success: false, 
@@ -146,7 +144,7 @@ userController.signUp = (req, res) => {
         }else{
             res.status(500).json({
                 success: false, 
-                message: 'Something went wrong, please try again'
+                message: err
             })
         }
     })
